@@ -2,3 +2,12 @@
 /build
 /TODO.md
 /.intentionally-empty-file.o
+
+### zig template
+# Zig programming language
+.zig-cache/
+zig-out/
+zig-cache/
+build/
+build-*/
+docgen_tmp/
