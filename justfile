@@ -4,6 +4,8 @@ release: bump package tag
 
 package: build-linux build-mac build-win package-zig
 
+package-build: package
+
 bump next=`git cliff --bumped-version | tr -d "v"`:
     git diff --cached --exit-code
 
@@ -36,7 +38,7 @@ build-win:
     zig build -Doptimize=ReleaseFast -Dtarget=x86_64-windows-gnu -p target/plugin-win
 
 package-zig:
-    zig build package
+    zig build package -Dpackage-host-only -Doptimize=ReleaseFast
 
 clean:
     sudo rm -rf target/
