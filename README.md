@@ -45,38 +45,41 @@ Read [this wiki page](https://github.com/4ndv/opendeck-akp03/wiki/Adding-support
 
 You'll need:
 
-- A Linux OS of some sort
-- Rust 1.87 and up with `x86_64-unknown-linux-gnu` and `x86_64-pc-windows-gnu` targets installed
-- gcc with Windows support
-- Docker
+- Zig 0.15.2+
+- hidapi (headers + library)
+- libturbojpeg (turbojpeg.h + library)
 - [just](https://just.systems)
+- macOS builds: `lipo` (or build on macOS), plus Apple SDKs if cross-compiling
+- Windows builds on Linux: mingw toolchain if your environment requires it
 
 On Arch Linux:
 
 ```sh
-sudo pacman -S just mingw-w64-gcc mingw-w64-binutils
+sudo pacman -S zig just hidapi libjpeg-turbo mingw-w64-gcc mingw-w64-binutils
 ```
-
-Adding rust targets:
-
-```sh
-rustup target add x86_64-pc-windows-gnu
-rustup target add x86_64-unknown-linux-gnu
-```
-
-### Preparing environment
-
-```sh
-$ just prepare
-```
-
-This will build docker image for macOS crosscompilation
 
 ### Building a release package
 
 ```sh
 $ just package
 ```
+
+`just package` builds platform binaries first (Linux + macOS universal + Windows) and then runs the Zig packaging step.
+
+Or directly after you have the binaries in place (from the `target/plugin-{linux,mac,win}` directories):
+
+```sh
+zig build package
+```
+
+This produces `build/st.lynx.plugins.opendeck-akp03.sdPlugin` and `build/opendeck-akp03.plugin.zip`.
+
+### Notes
+
+- If hidapi headers are not in the default include path, use `zig build -Dhidapi-include=/path/to/include`.
+- If turbojpeg is installed under a non-default name, use `zig build -Dturbojpeg-lib=turbojpeg`.
+- On Linux, prefer the native target (no `-Dtarget=...`) when linking against system `turbojpeg` to avoid glibc version mismatches.
+- macOS universal builds require `lipo` and both `x86_64-macos` + `aarch64-macos` outputs.
 
 ## Acknowledgments
 

@@ -81,12 +81,12 @@ All notable changes to this project will be documented in this file.
 ### 💼 Other
 
 - Crosscompilation setup for Mac and Windows
-- Simplify crosscompilation setup with cargo-zigbuild
+- Simplify crosscompilation setup with zig
 - *(deps)* Bump mirajazz to v0.6.1
 
 ### ⚙️ Miscellaneous Tasks
 
-- Remove cargo stuff which is not needed anymore
+- Remove Rust build artifacts
 - Remove Cross.toml
 
 ## [0.5.2] - 2025-06-18
