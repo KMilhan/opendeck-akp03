@@ -43,4 +43,5 @@ collect:
 
 [working-directory: "build"]
 zip:
-    zip -r opendeck-akp03.plugin.zip {{id}}/
+    rm -f ../opendeck-akp03.plugin.zip
+    zip -r ../opendeck-akp03.plugin.zip {{id}}/

@@ -29,7 +29,7 @@ All notable changes to this project will be documented in this file.
 ### 💼 Other
 
 - *(ci)* Added git cliff config
-- *(just)* Update macos build command to be same as in akp153
+- *(just)* Update build command to be same as in akp153
 - *(just)* Added release command
 
 ### ⚙️ Miscellaneous Tasks
@@ -76,11 +76,11 @@ All notable changes to this project will be documented in this file.
 
 ### 🐛 Bug Fixes
 
-- Queries should have usage id 1 instead of 2, because Windows gets only that
+- Queries should have usage id 1 instead of 2
 
 ### 💼 Other
 
-- Crosscompilation setup for Mac and Windows
+- Crosscompilation setup
 - Simplify crosscompilation setup with zig
 - *(deps)* Bump mirajazz to v0.6.1
 

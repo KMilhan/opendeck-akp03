@@ -88,11 +88,12 @@ pub fn build(b: *std.Build) void {
         "  exit 1\n" ++
         "fi\n" ++
         "rm -rf build\n" ++
+        "rm -f opendeck-akp03.plugin.zip\n" ++
         "mkdir -p build/${id}\n" ++
         "cp -r assets build/${id}\n" ++
         "cp manifest.json build/${id}\n" ++
         "cp \"$linux_bin\" build/${id}/opendeck-akp03-linux\n" ++
-        "(cd build && zip -r opendeck-akp03.plugin.zip ${id}/)\n";
+        "(cd build && zip -r ../opendeck-akp03.plugin.zip ${id}/)\n";
     const package_cmd = b.addSystemCommand(&.{ "sh", "-lc", script });
     package_step.dependOn(&package_cmd.step);
 }

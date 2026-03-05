@@ -68,7 +68,7 @@ Or directly after you have the binary in place (from `target/plugin-linux`):
 zig build package
 ```
 
-This produces `build/st.lynx.plugins.opendeck-akp03.sdPlugin` and `build/opendeck-akp03.plugin.zip`.
+This produces `build/st.lynx.plugins.opendeck-akp03.sdPlugin` and `opendeck-akp03.plugin.zip` in the repository root.
 
 ### Notes
 
