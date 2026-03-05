@@ -1,8 +1,8 @@
 ![Plugin Icon](assets/icon.png)
 
-# OpenDeck Ajazz AKP03 / Mirabox N3 Plugin
+# OpenDeck N3-alike Plugin
 
-An unofficial plugin for Mirabox N3-family devices
+An unofficial, linux only plugin for Mirabox N3-family devices
 
 ## Project note
 
@@ -13,9 +13,11 @@ The port focuses on supporting a wider range of devices with a simpler implement
 
 ## OpenDeck version
 
-Requires OpenDeck 2.5.0 or newer
+Requires OpenDeck 2.5.0+
 
 ## Supported devices
+
+> We aim supporting anything looks like N3. Report unsupported ones.
 
 - Ajazz AKP03 (0300:1001)
 - Ajazz AKP03E (0300:1002)
