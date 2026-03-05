@@ -1,19 +1,13 @@
 {
-  "Name": "Ajazz AKP03 / Mirabox N3",
+  "Name": "Ajazz AKP03 / Mirabox N3, zig-ported",
   "Description": "Device support plugin for Ajazz AKP03 (+variants)",
-  "Author": "Andrey Viktorov",
-  "Version": "0.7.4",
-  "PluginUUID": "st.lynx.plugins.opendeck-akp03",
+  "Author": "Milhan Kim,  Andrey Viktorov",
+  "Version": "1.0",
+  "PluginUUID": "st.lynx.plugins.opendeck-akp03-zig",
   "CodePathLin": "opendeck-akp03-linux",
-  "CodePathMac": "opendeck-akp03-mac",
-  "CodePathWin": "opendeck-akp03-win.exe",
   "Icon": "assets/icon",
   "Category": "Hardware",
-  "OS": [
-    { "Platform": "linux" },
-    { "Platform": "mac", "MinimumVersion": "11.3" },
-    { "Platform": "windows", "MinimumVersion": "10" }
-  ],
+  "OS": [{ "Platform": "linux" }],
   "Actions": [],
   "DeviceNamespace": "n3"
 }

@@ -3,6 +3,12 @@ const builtin = @import("builtin");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
+    if (target.result.os.tag != .linux) {
+        std.debug.panic(
+            "opendeck-akp03 supports only Linux targets (received {s})",
+            .{@tagName(target.result.os.tag)},
+        );
+    }
     const optimize = b.standardOptimizeOption(.{});
 
     const root_module = b.createModule(.{
@@ -33,13 +39,7 @@ pub fn build(b: *std.Build) void {
         exe.addIncludePath(.{ .cwd_relative = hidapi_include });
     }
 
-    const os_tag = target.result.os.tag;
-    const hidapi_lib = b.option([]const u8, "hidapi-lib", "hidapi library name") orelse switch (os_tag) {
-        .linux => "hidapi-hidraw",
-        .macos => "hidapi",
-        .windows => "hidapi",
-        else => "hidapi",
-    };
+    const hidapi_lib = b.option([]const u8, "hidapi-lib", "hidapi library name") orelse "hidapi-hidraw";
     exe.linkSystemLibrary(hidapi_lib);
 
     const turbojpeg_enabled = b.option(bool, "turbojpeg", "Link turbojpeg for JPEG pipeline") orelse true;
@@ -53,7 +53,7 @@ pub fn build(b: *std.Build) void {
         exe.addLibraryPath(.{ .cwd_relative = system_lib_dir });
     }
 
-    if (os_tag == .linux and
+    if (target.result.os.tag == .linux and
         target.result.os.tag == builtin.os.tag and
         target.result.cpu.arch == builtin.cpu.arch)
     {
@@ -66,23 +66,7 @@ pub fn build(b: *std.Build) void {
         exe.addLibraryPath(.{ .cwd_relative = "/lib64" });
     }
 
-    switch (os_tag) {
-        .macos => {
-            exe.linkFramework("IOKit");
-            exe.linkFramework("CoreFoundation");
-        },
-        .windows => {
-            exe.linkSystemLibrary("setupapi");
-        },
-        else => {},
-    }
-
     b.installArtifact(exe);
-
-    const package_host_only = b.option(bool, "package-host-only", "Only require host platform binaries when packaging") orelse false;
-    const need_linux = (!package_host_only or target.result.os.tag == .linux);
-    const need_macos = (!package_host_only or target.result.os.tag == .macos);
-    const need_windows = (!package_host_only or target.result.os.tag == .windows);
 
     const package_step = b.step("package", "Assemble sdPlugin directory and zip");
     package_step.dependOn(b.getInstallStep());
@@ -99,46 +83,16 @@ pub fn build(b: *std.Build) void {
         "  return 1\n" ++
         "}\n" ++
         "linux_bin=\"\"\n" ++
-        "mac_bin=\"\"\n" ++
-        "win_bin=\"\"\n" ++
         "if ! linux_bin=$(pick_bin target/plugin-linux/bin/opendeck-akp03 target/plugin-linux/x86_64-unknown-linux-gnu/release/opendeck-akp03 zig-out/bin/opendeck-akp03); then\n" ++
-        "  if [ \"${NEED_LINUX}\" = \"1\" ]; then\n" ++
-        "    echo \"missing Linux binary (run: zig build -Doptimize=ReleaseFast -p target/plugin-linux)\" >&2\n" ++
-        "    exit 1\n" ++
-        "  fi\n" ++
-        "  echo \"warning: skipping Linux binary\" >&2\n" ++
-        "fi\n" ++
-        "if ! mac_bin=$(pick_bin target/plugin-mac/bin/opendeck-akp03 target/plugin-mac/universal2-apple-darwin/release/opendeck-akp03 target/plugin-mac/x86_64-apple-darwin/release/opendeck-akp03 zig-out/bin/opendeck-akp03); then\n" ++
-        "  if [ \"${NEED_MACOS}\" = \"1\" ]; then\n" ++
-        "    echo \"missing macOS binary (run: just build-mac)\" >&2\n" ++
-        "    exit 1\n" ++
-        "  fi\n" ++
-        "  echo \"warning: skipping macOS binary\" >&2\n" ++
-        "fi\n" ++
-        "if ! win_bin=$(pick_bin target/plugin-win/bin/opendeck-akp03.exe target/plugin-win/x86_64-pc-windows-gnu/release/opendeck-akp03.exe zig-out/bin/opendeck-akp03.exe); then\n" ++
-        "  if [ \"${NEED_WINDOWS}\" = \"1\" ]; then\n" ++
-        "    echo \"missing Windows binary (run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-windows-gnu -p target/plugin-win)\" >&2\n" ++
-        "    exit 1\n" ++
-        "  fi\n" ++
-        "  echo \"warning: skipping Windows binary\" >&2\n" ++
+        "  echo \"missing Linux binary (run: zig build -Doptimize=ReleaseFast -p target/plugin-linux)\" >&2\n" ++
+        "  exit 1\n" ++
         "fi\n" ++
         "rm -rf build\n" ++
         "mkdir -p build/${id}\n" ++
         "cp -r assets build/${id}\n" ++
         "cp manifest.json build/${id}\n" ++
-        "if [ -n \"$linux_bin\" ]; then\n" ++
-        "  cp \"$linux_bin\" build/${id}/opendeck-akp03-linux\n" ++
-        "fi\n" ++
-        "if [ -n \"$mac_bin\" ]; then\n" ++
-        "  cp \"$mac_bin\" build/${id}/opendeck-akp03-mac\n" ++
-        "fi\n" ++
-        "if [ -n \"$win_bin\" ]; then\n" ++
-        "  cp \"$win_bin\" build/${id}/opendeck-akp03-win.exe\n" ++
-        "fi\n" ++
+        "cp \"$linux_bin\" build/${id}/opendeck-akp03-linux\n" ++
         "(cd build && zip -r opendeck-akp03.plugin.zip ${id}/)\n";
     const package_cmd = b.addSystemCommand(&.{ "sh", "-lc", script });
-    package_cmd.setEnvironmentVariable("NEED_LINUX", if (need_linux) "1" else "0");
-    package_cmd.setEnvironmentVariable("NEED_MACOS", if (need_macos) "1" else "0");
-    package_cmd.setEnvironmentVariable("NEED_WINDOWS", if (need_windows) "1" else "0");
     package_step.dependOn(&package_cmd.step);
 }

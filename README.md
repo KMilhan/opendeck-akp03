@@ -24,9 +24,7 @@ Requires OpenDeck 2.5.0 or newer
 
 ## Platform support
 
-- Linux: Guaranteed, if stuff breaks - I'll probably catch it before public release
-- Mac: Best effort, no tests before release, things may break, but I probably have means to fix them
-- Windows: Zero effort, no tests before release, if stuff breaks - too bad, it's up to you to contribute fixes
+- Linux only
 
 ## Installation
 
@@ -49,13 +47,11 @@ You'll need:
 - hidapi (headers + library)
 - libturbojpeg (turbojpeg.h + library)
 - [just](https://just.systems)
-- macOS builds: `lipo` (or build on macOS), plus Apple SDKs if cross-compiling
-- Windows builds on Linux: mingw toolchain if your environment requires it
 
 On Arch Linux:
 
 ```sh
-sudo pacman -S zig just hidapi libjpeg-turbo mingw-w64-gcc mingw-w64-binutils
+sudo pacman -S zig just hidapi libjpeg-turbo
 ```
 
 ### Building a release package
@@ -64,9 +60,9 @@ sudo pacman -S zig just hidapi libjpeg-turbo mingw-w64-gcc mingw-w64-binutils
 $ just package
 ```
 
-`just package` builds platform binaries first (Linux + macOS universal + Windows) and then runs the Zig packaging step.
+`just package` builds the Linux binary and then runs the Zig packaging step.
 
-Or directly after you have the binaries in place (from the `target/plugin-{linux,mac,win}` directories):
+Or directly after you have the binary in place (from `target/plugin-linux`):
 
 ```sh
 zig build package
@@ -79,7 +75,6 @@ This produces `build/st.lynx.plugins.opendeck-akp03.sdPlugin` and `build/opendec
 - If hidapi headers are not in the default include path, use `zig build -Dhidapi-include=/path/to/include`.
 - If turbojpeg is installed under a non-default name, use `zig build -Dturbojpeg-lib=turbojpeg`.
 - On Linux, prefer the native target (no `-Dtarget=...`) when linking against system `turbojpeg` to avoid glibc version mismatches.
-- macOS universal builds require `lipo` and both `x86_64-macos` + `aarch64-macos` outputs.
 
 ## Acknowledgments
 
