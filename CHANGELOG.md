@@ -86,7 +86,7 @@ All notable changes to this project will be documented in this file.
 
 ### ⚙️ Miscellaneous Tasks
 
-- Remove Rust build artifacts
+- Remove legacy build artifacts
 - Remove Cross.toml
 
 ## [0.5.2] - 2025-06-18
@@ -119,7 +119,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🚜 Refactor
 
-- [**breaking**] Migrate to new async version of mirajazz library, greatly simplifying device.rs
+- [**breaking**] Migrate to new async version of mirajazz library, greatly simplifying the device module
 
 ### ⚙️ Miscellaneous Tasks
 

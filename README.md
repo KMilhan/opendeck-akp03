@@ -4,6 +4,12 @@
 
 An unofficial plugin for Mirabox N3-family devices
 
+## Project note
+
+This repository is a Zig port.
+Original implementation by Andrey Viktorov.
+Ported to Zig by Milhan Kim.
+
 ## OpenDeck version
 
 Requires OpenDeck 2.5.0 or newer
@@ -28,14 +34,14 @@ Requires OpenDeck 2.5.0 or newer
 
 ## Installation
 
-1. Download an archive from [releases](https://github.com/4ndv/opendeck-akp03/releases)
+1. Download an archive from [releases](https://github.com/KMilhan/opendeck-akp03-zig/releases)
 2. In OpenDeck: Plugins -> Install from file
-3. Download [udev rules](./40-opendeck-akp03.rules) and install them by copying into `/etc/udev/rules.d/` and running `sudo udevadm control --reload-rules`
+3. Download [udev rules](./40-opendeck-akp03-zig.rules) and install them by copying into `/etc/udev/rules.d/` and running `sudo udevadm control --reload-rules`
 4. Unplug and plug again the device, restart OpenDeck
 
 ## Adding new devices
 
-Read [this wiki page](https://github.com/4ndv/opendeck-akp03/wiki/Adding-support-for-new-devices) for more information.
+Read [this wiki page](https://github.com/KMilhan/opendeck-akp03-zig/wiki/Adding-support-for-new-devices) for more information.
 
 ## Building
 
@@ -68,7 +74,7 @@ Or directly after you have the binary in place (from `target/plugin-linux`):
 zig build package
 ```
 
-This produces `build/st.lynx.plugins.opendeck-akp03.sdPlugin` and `opendeck-akp03.plugin.zip` in the repository root.
+This produces `build/st.lynx.plugins.opendeck-akp03-zig.sdPlugin` and `opendeck-akp03-zig.plugin.zip` in the repository root.
 
 ### Notes
 
@@ -78,4 +84,4 @@ This produces `build/st.lynx.plugins.opendeck-akp03.sdPlugin` and `opendeck-akp0
 
 ## Acknowledgments
 
-This plugin is heavily based on work by contributors of [elgato-streamdeck](https://github.com/streamduck-org/elgato-streamdeck) crate
+This plugin is heavily based on work by contributors of [elgato-streamdeck](https://github.com/streamduck-org/elgato-streamdeck).

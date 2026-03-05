@@ -1,4 +1,4 @@
-id := "st.lynx.plugins.opendeck-akp03.sdPlugin"
+id := "st.lynx.plugins.opendeck-akp03-zig.sdPlugin"
 
 release: bump package tag
 
@@ -39,9 +39,9 @@ collect:
     mkdir -p build/{{id}}
     cp -r assets build/{{id}}
     cp manifest.json build/{{id}}
-    cp target/plugin-linux/bin/opendeck-akp03 build/{{id}}/opendeck-akp03-linux
+    cp target/plugin-linux/bin/opendeck-akp03-zig build/{{id}}/opendeck-akp03-zig-linux
 
 [working-directory: "build"]
 zip:
-    rm -f ../opendeck-akp03.plugin.zip
-    zip -r ../opendeck-akp03.plugin.zip {{id}}/
+    rm -f ../opendeck-akp03-zig.plugin.zip
+    zip -r ../opendeck-akp03-zig.plugin.zip {{id}}/

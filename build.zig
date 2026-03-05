@@ -5,7 +5,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     if (target.result.os.tag != .linux) {
         std.debug.panic(
-            "opendeck-akp03 supports only Linux targets (received {s})",
+            "opendeck-akp03-zig supports only Linux targets (received {s})",
             .{@tagName(target.result.os.tag)},
         );
     }
@@ -27,7 +27,7 @@ pub fn build(b: *std.Build) void {
     root_module.addImport("mirajazz", mirajazz_mod);
 
     const exe = b.addExecutable(.{
-        .name = "opendeck-akp03",
+        .name = "opendeck-akp03-zig",
         .root_module = root_module,
     });
 
@@ -72,7 +72,7 @@ pub fn build(b: *std.Build) void {
     package_step.dependOn(b.getInstallStep());
     const script =
         "set -euo pipefail\n" ++
-        "id=st.lynx.plugins.opendeck-akp03.sdPlugin\n" ++
+        "id=st.lynx.plugins.opendeck-akp03-zig.sdPlugin\n" ++
         "pick_bin() {\n" ++
         "  for p in \"$@\"; do\n" ++
         "    if [ -f \"$p\" ]; then\n" ++
@@ -83,17 +83,17 @@ pub fn build(b: *std.Build) void {
         "  return 1\n" ++
         "}\n" ++
         "linux_bin=\"\"\n" ++
-        "if ! linux_bin=$(pick_bin target/plugin-linux/bin/opendeck-akp03 target/plugin-linux/x86_64-unknown-linux-gnu/release/opendeck-akp03 zig-out/bin/opendeck-akp03); then\n" ++
+        "if ! linux_bin=$(pick_bin target/plugin-linux/bin/opendeck-akp03-zig target/plugin-linux/x86_64-unknown-linux-gnu/release/opendeck-akp03-zig zig-out/bin/opendeck-akp03-zig); then\n" ++
         "  echo \"missing Linux binary (run: zig build -Doptimize=ReleaseFast -p target/plugin-linux)\" >&2\n" ++
         "  exit 1\n" ++
         "fi\n" ++
         "rm -rf build\n" ++
-        "rm -f opendeck-akp03.plugin.zip\n" ++
+        "rm -f opendeck-akp03-zig.plugin.zip\n" ++
         "mkdir -p build/${id}\n" ++
         "cp -r assets build/${id}\n" ++
         "cp manifest.json build/${id}\n" ++
-        "cp \"$linux_bin\" build/${id}/opendeck-akp03-linux\n" ++
-        "(cd build && zip -r ../opendeck-akp03.plugin.zip ${id}/)\n";
+        "cp \"$linux_bin\" build/${id}/opendeck-akp03-zig-linux\n" ++
+        "(cd build && zip -r ../opendeck-akp03-zig.plugin.zip ${id}/)\n";
     const package_cmd = b.addSystemCommand(&.{ "sh", "-lc", script });
     package_step.dependOn(&package_cmd.step);
 }
