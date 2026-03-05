@@ -9,6 +9,7 @@ An unofficial plugin for Mirabox N3-family devices
 This repository is a Zig port.
 Original implementation by Andrey Viktorov.
 Ported to Zig by Milhan Kim.
+The port focuses on supporting a wider range of devices with a simpler implementation.
 
 ## OpenDeck version
 
@@ -36,8 +37,16 @@ Requires OpenDeck 2.5.0 or newer
 
 1. Download an archive from [releases](https://github.com/KMilhan/opendeck-akp03-zig/releases)
 2. In OpenDeck: Plugins -> Install from file
-3. Download [udev rules](./40-opendeck-akp03-zig.rules) and install them by copying into `/etc/udev/rules.d/` and running `sudo udevadm control --reload-rules`
-4. Unplug and plug again the device, restart OpenDeck
+3. Install [udev rules](./40-opendeck-akp03-zig.rules):
+
+```sh
+sudo install -Dm0644 40-opendeck-akp03-zig.rules /etc/udev/rules.d/40-opendeck-akp03-zig.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger --subsystem-match=usb --action=add
+sudo udevadm trigger --subsystem-match=hidraw --action=add
+```
+
+4. Unplug and plug again the device, then restart OpenDeck
 
 ## Adding new devices
 
